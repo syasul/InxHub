@@ -93,7 +93,7 @@
     <!-- Branding Agency Header -->
     <div class="absolute top-10 left-0 right-0 flex justify-center z-10 select-none pointer-events-none">
         <span class="font-heading text-[10px] uppercase tracking-[0.4em] font-extrabold opacity-30">
-            INXDVI™ Studio
+            INXDVI
         </span>
     </div>
 
