@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $settings->profile_name ?? 'INXDVI Link' }}</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|syne:700,800" rel="stylesheet" />
@@ -191,9 +195,7 @@
                 $socialPlatforms = [
                     'instagram' => ['url' => 'https://instagram.com/', 'color' => 'hover:text-pink-500'],
                     'tiktok' => ['url' => 'https://tiktok.com/@', 'color' => 'hover:text-cyan-400'],
-                    'github' => ['url' => 'https://github.com/', 'color' => 'hover:text-purple-400'],
-                    'linkedin' => ['url' => 'https://linkedin.com/in/', 'color' => 'hover:text-blue-500'],
-                    'twitter' => ['url' => 'https://twitter.com/', 'color' => 'hover:text-sky-400'],
+                    'threads' => ['url' => 'https://threads.net/@', 'color' => 'hover:text-white'],
                     'youtube' => ['url' => 'https://youtube.com/', 'color' => 'hover:text-red-500'],
                     'whatsapp' => ['url' => 'https://wa.me/', 'color' => 'hover:text-green-500'],
                 ];
@@ -225,12 +227,12 @@
                                     <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                 @elseif($platform === 'tiktok')
                                     <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-                                @elseif($platform === 'github')
-                                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                                @elseif($platform === 'linkedin')
-                                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                                @elseif($platform === 'twitter')
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                @elseif($platform === 'threads')
+                                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2a10 10 0 1 0 10 10" />
+                                        <path d="M18 12a6 6 0 1 1-1.2-3.6" />
+                                        <path d="M12 8a4 4 0 1 0 4 4V8a2 2 0 0 0-4 0" />
+                                    </svg>
                                 @elseif($platform === 'youtube')
                                     <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                                 @elseif($platform === 'whatsapp')
@@ -258,51 +260,111 @@
                         }
                     @endphp
 
-                    <a href="{{ route('links.click', $link) }}" target="_blank" rel="noopener"
-                       class="tilt-3d w-full py-4.5 px-6 rounded-2xl border flex items-center justify-between group transition-all duration-300 relative overflow-hidden
-                           @if(($settings->theme ?? '') === 'inxdvi-light')
-                               bg-neutral-50 hover:bg-white border-neutral-200/80 text-neutral-800 hover:border-neutral-400 shadow-[0_4px_12px_rgba(0,0,0,0.01)]
-                           @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
-                               bg-black/90 border-cyan-950/80 text-cyan-400 hover:border-cyan-400/80 rounded-xl
-                           @elseif(($settings->theme ?? '') === 'inxdvi-mono')
-                               bg-black border border-neutral-800 text-white hover:bg-white hover:text-black rounded-none
-                           @else
-                               bg-neutral-950/45 hover:bg-neutral-900/60 border-neutral-800/40 text-neutral-200 hover:border-violet-500/25
-                           @endif
-                       ">
-                       
-                       <div class="flex items-center gap-4">
-                           <!-- Link Icon -->
-                           <div class="flex items-center justify-center w-9.5 h-9.5 rounded-xl transition-all duration-300
+                    @if($link->cover_image)
+                        <!-- Premium Cover Card Layout -->
+                        <a href="{{ route('links.click', $link) }}" target="_blank" rel="noopener"
+                           class="tilt-3d w-full rounded-2xl border flex flex-col group transition-all duration-300 relative overflow-hidden
                                @if(($settings->theme ?? '') === 'inxdvi-light')
-                                   bg-neutral-100 group-hover:bg-neutral-200 text-neutral-600
+                                   bg-neutral-50 border-neutral-200/80 text-neutral-800 hover:border-neutral-400 shadow-sm
                                @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
-                                   bg-cyan-950/50 text-cyan-400 group-hover:text-pink-400 rounded-lg
+                                   bg-black/95 border-cyan-950/80 text-cyan-400 hover:border-cyan-400/80 rounded-xl
                                @elseif(($settings->theme ?? '') === 'inxdvi-mono')
-                                   bg-neutral-900 text-white rounded-none border border-neutral-800
+                                   bg-black border border-neutral-800 text-white rounded-none hover:border-white
                                @else
-                                   bg-neutral-900/60 group-hover:bg-violet-950/30 text-neutral-400 group-hover:text-violet-400
+                                   bg-neutral-950/45 hover:bg-neutral-900/60 border-neutral-800/40 text-neutral-200 hover:border-violet-500/25
                                @endif
                            ">
-                               <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-4.5 h-4.5"></i>
-                           </div>
-                           
-                           <!-- Link Title & Tag -->
-                           <div class="text-left">
-                               <span class="text-[9px] font-bold tracking-[0.2em] uppercase opacity-35 mb-0.5 block">
-                                   {{ $tag }}
-                               </span>
-                               <span class="font-bold text-sm tracking-wide block">
-                                   {{ $link->title }}
-                               </span>
-                           </div>
-                       </div>
+                            <!-- Image banner -->
+                            <div class="w-full h-44 overflow-hidden relative">
+                                <img src="{{ $link->cover_image }}" alt="Cover" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+                                
+                                <!-- Floating category tag & Icon -->
+                                <div class="absolute top-4 left-4 flex items-center gap-2">
+                                    <div class="px-2.5 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-[8px] font-bold tracking-widest text-slate-300 uppercase">
+                                        {{ $tag }}
+                                    </div>
+                                </div>
 
-                       <!-- Arrow Indicator -->
-                       <div class="text-neutral-500 group-hover:text-neutral-300 transition-colors duration-300">
-                           <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
-                       </div>
-                    </a>
+                                <!-- Floating title -->
+                                <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center justify-center w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 text-purple-400">
+                                            <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-4.5 h-4.5"></i>
+                                        </div>
+                                        <span class="font-heading font-extrabold text-base tracking-wide text-white block">
+                                            {{ $link->title }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card footer showing destination URL summary -->
+                            <div class="px-5 py-3.5 flex items-center justify-between text-xs font-semibold
+                                @if(($settings->theme ?? '') === 'inxdvi-light')
+                                    bg-neutral-100/50 text-neutral-500 border-t border-neutral-200/50
+                                @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
+                                    bg-black text-cyan-500 border-t border-cyan-950/40
+                                @elseif(($settings->theme ?? '') === 'inxdvi-mono')
+                                    bg-neutral-950 text-neutral-400 border-t border-neutral-800
+                                @else
+                                    bg-neutral-950/60 text-slate-400 border-t border-slate-900/50
+                                @endif
+                            ">
+                                <span class="truncate max-w-[200px]">{{ str_replace(['https://', 'http://', 'www.'], '', $link->url) }}</span>
+                                <div class="flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider text-purple-400 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                                    <span>Visit</span>
+                                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </div>
+                            </div>
+                        </a>
+                    @else
+                        <!-- Standard Row Layout -->
+                        <a href="{{ route('links.click', $link) }}" target="_blank" rel="noopener"
+                           class="tilt-3d w-full py-4.5 px-6 rounded-2xl border flex items-center justify-between group transition-all duration-300 relative overflow-hidden
+                               @if(($settings->theme ?? '') === 'inxdvi-light')
+                                   bg-neutral-50 hover:bg-white border-neutral-200/80 text-neutral-800 hover:border-neutral-400 shadow-[0_4px_12px_rgba(0,0,0,0.01)]
+                               @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
+                                   bg-black/90 border-cyan-950/80 text-cyan-400 hover:border-cyan-400/80 rounded-xl
+                               @elseif(($settings->theme ?? '') === 'inxdvi-mono')
+                                   bg-black border border-neutral-800 text-white hover:bg-white hover:text-black rounded-none
+                               @else
+                                   bg-neutral-950/45 hover:bg-neutral-900/60 border-neutral-800/40 text-neutral-200 hover:border-violet-500/25
+                               @endif
+                           ">
+                           
+                           <div class="flex items-center gap-4">
+                               <!-- Link Icon -->
+                               <div class="flex items-center justify-center w-9.5 h-9.5 rounded-xl transition-all duration-300
+                                   @if(($settings->theme ?? '') === 'inxdvi-light')
+                                       bg-neutral-100 group-hover:bg-neutral-200 text-neutral-600
+                                   @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
+                                       bg-cyan-950/50 text-cyan-400 group-hover:text-pink-400 rounded-lg
+                                   @elseif(($settings->theme ?? '') === 'inxdvi-mono')
+                                       bg-neutral-900 text-white rounded-none border border-neutral-800
+                                   @else
+                                       bg-neutral-900/60 group-hover:bg-violet-950/30 text-neutral-400 group-hover:text-violet-400
+                                   @endif
+                               ">
+                                   <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-4.5 h-4.5"></i>
+                               </div>
+                               
+                               <!-- Link Title & Tag -->
+                               <div class="text-left">
+                                   <span class="text-[9px] font-bold tracking-[0.2em] uppercase opacity-35 mb-0.5 block">
+                                       {{ $tag }}
+                                   </span>
+                                   <span class="font-bold text-sm tracking-wide block">
+                                       {{ $link->title }}
+                                   </span>
+                                </div>
+                           </div>
+
+                           <!-- Arrow Indicator -->
+                           <div class="text-neutral-500 group-hover:text-neutral-300 transition-colors duration-300">
+                               <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                           </div>
+                        </a>
+                    @endif
                 @empty
                     <div class="text-center py-8 text-neutral-500 text-sm">
                         No links available yet.

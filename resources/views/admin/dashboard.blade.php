@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Linktree Admin Dashboard</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
@@ -195,15 +199,15 @@
                         <i data-lucide="plus-circle" class="w-4 h-4 text-purple-400"></i>
                         <span>Add New Custom Link</span>
                     </h3>
-                    <form action="{{ route('admin.links.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                    <form action="{{ route('admin.links.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                         @csrf
-                        <div class="md:col-span-4 space-y-1.5">
+                        <div class="md:col-span-3 space-y-1.5">
                             <label class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Link Title</label>
                             <input type="text" name="title" required placeholder="e.g. 🌟 Work Portfolio"
                                    class="w-full px-4 py-2.5 bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-200 placeholder-slate-600 text-sm">
                         </div>
 
-                        <div class="md:col-span-5 space-y-1.5">
+                        <div class="md:col-span-4 space-y-1.5">
                             <label class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Destination URL</label>
                             <input type="url" name="url" required placeholder="https://github.com/myusername"
                                    class="w-full px-4 py-2.5 bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-200 placeholder-slate-600 text-sm">
@@ -223,6 +227,12 @@
                                 <option value="message-circle">Chat</option>
                                 <option value="download">Download</option>
                             </select>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-1.5">
+                            <label class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Cover Image</label>
+                            <input type="file" name="cover_image" accept="image/*"
+                                   class="w-full px-2 py-1.5 bg-slate-950/60 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-400 text-xs">
                         </div>
 
                         <div class="md:col-span-1">
@@ -256,8 +266,12 @@
                                         </button>
                                     </div>
 
-                                    <div class="w-9 h-9 rounded-xl bg-slate-950 flex items-center justify-center text-purple-400 border border-slate-800">
-                                        <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-4 h-4"></i>
+                                    <div class="w-9 h-9 rounded-xl bg-slate-950 flex items-center justify-center text-purple-400 border border-slate-800 relative overflow-hidden">
+                                        @if($link->cover_image)
+                                            <img src="{{ $link->cover_image }}" alt="Cover" class="w-full h-full object-cover">
+                                        @else
+                                            <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-4 h-4"></i>
+                                        @endif
                                     </div>
 
                                     <div>
@@ -303,17 +317,17 @@
                             <!-- Inline Edit Form (Hidden by default) -->
                             <div id="edit-form-{{ $link->id }}" class="hidden p-5 rounded-2xl bg-slate-950 border border-slate-800/60 space-y-4">
                                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Edit Link Properties</h4>
-                                <form action="{{ route('admin.links.update', $link) }}" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                                <form action="{{ route('admin.links.update', $link) }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                                     @csrf
                                     @method('PUT')
                                     
-                                    <div class="md:col-span-4 space-y-1.5">
+                                    <div class="md:col-span-3 space-y-1.5">
                                         <label class="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Title</label>
                                         <input type="text" name="title" value="{{ $link->title }}" required
                                                class="w-full px-4 py-2 bg-slate-900 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-200 text-sm">
                                     </div>
 
-                                    <div class="md:col-span-4 space-y-1.5">
+                                    <div class="md:col-span-3 space-y-1.5">
                                         <label class="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Destination URL</label>
                                         <input type="url" name="url" value="{{ $link->url }}" required
                                                class="w-full px-4 py-2 bg-slate-900 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-200 text-sm">
@@ -333,6 +347,18 @@
                                             <option value="message-circle" {{ $link->icon === 'message-circle' ? 'selected' : '' }}>Chat</option>
                                             <option value="download" {{ $link->icon === 'download' ? 'selected' : '' }}>Download</option>
                                         </select>
+                                    </div>
+
+                                    <div class="md:col-span-2 space-y-1.5">
+                                        <label class="text-[10px] font-bold tracking-wider text-slate-500 uppercase">Cover Image</label>
+                                        <input type="file" name="cover_image" accept="image/*"
+                                               class="w-full px-2 py-1.5 bg-slate-900 border border-slate-800 focus:border-purple-500 rounded-xl focus:outline-none text-slate-400 text-xs">
+                                        @if($link->cover_image)
+                                            <div class="flex items-center gap-1.5 mt-1">
+                                                <input type="checkbox" name="remove_cover" id="remove_cover_{{ $link->id }}" value="1" class="w-3.5 h-3.5 text-purple-600 bg-slate-900 border-slate-800 rounded">
+                                                <label for="remove_cover_{{ $link->id }}" class="text-[9px] text-red-400 select-none cursor-pointer">Remove Cover</label>
+                                            </div>
+                                        @endif
                                     </div>
 
                                     <div class="md:col-span-2 flex items-center justify-between gap-4 pt-1.5 md:pt-0">
@@ -465,13 +491,10 @@
                         </h3>
                         
                         @php
-                            $socialLinks = $settings->social_links ?? [];
                             $socialFields = [
                                 'instagram' => ['label' => 'Instagram Username', 'icon' => 'instagram', 'placeholder' => 'zyrexxx.code'],
                                 'tiktok' => ['label' => 'TikTok Username', 'icon' => 'music', 'placeholder' => 'zyrexxx.code'],
-                                'github' => ['label' => 'GitHub Username', 'icon' => 'github', 'placeholder' => 'zyrexxx'],
-                                'linkedin' => ['label' => 'LinkedIn Handle', 'icon' => 'linkedin', 'placeholder' => 'zyrexxx-code'],
-                                'twitter' => ['label' => 'Twitter/X Username', 'icon' => 'twitter', 'placeholder' => 'zyrexxx'],
+                                'threads' => ['label' => 'Threads Username', 'icon' => 'at-sign', 'placeholder' => 'inxdvi'],
                                 'youtube' => ['label' => 'YouTube Channel URL/Handle', 'icon' => 'youtube', 'placeholder' => '@zyrexxx'],
                                 'whatsapp' => ['label' => 'WhatsApp Number (with country code)', 'icon' => 'phone', 'placeholder' => '6281234567890'],
                             ];
@@ -485,12 +508,12 @@
                                             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                         @elseif($key === 'tiktok')
                                             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-                                        @elseif($key === 'github')
-                                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                                        @elseif($key === 'linkedin')
-                                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                                        @elseif($key === 'twitter')
-                                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                        @elseif($key === 'threads')
+                                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 2a10 10 0 1 0 10 10" />
+                                                <path d="M18 12a6 6 0 1 1-1.2-3.6" />
+                                                <path d="M12 8a4 4 0 1 0 4 4V8a2 2 0 0 0-4 0" />
+                                            </svg>
                                         @elseif($key === 'youtube')
                                             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                                         @elseif($key === 'whatsapp')
@@ -653,12 +676,12 @@
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                     @elseif($key === 'tiktok')
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-                                    @elseif($key === 'github')
-                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                                    @elseif($key === 'linkedin')
-                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                                    @elseif($key === 'twitter')
-                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                    @elseif($key === 'threads')
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 2a10 10 0 1 0 10 10" />
+                                            <path d="M18 12a6 6 0 1 1-1.2-3.6" />
+                                            <path d="M12 8a4 4 0 1 0 4 4V8a2 2 0 0 0-4 0" />
+                                        </svg>
                                     @elseif($key === 'youtube')
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
                                     @elseif($key === 'whatsapp')
@@ -671,25 +694,52 @@
                         <!-- Links Stack Preview -->
                         <div class="w-full space-y-2.5">
                             @forelse($links->where('is_active', true) as $link)
-                                <div class="w-full py-2.5 px-4 rounded-xl border flex items-center justify-between text-xs
-                                    @if(($settings->theme ?? '') === 'inxdvi-light')
-                                        bg-neutral-50 border-neutral-200/80 text-neutral-800 shadow-sm
-                                    @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
-                                        bg-black/90 border-cyan-950/80 text-cyan-400 rounded-lg
-                                    @elseif(($settings->theme ?? '') === 'inxdvi-mono')
-                                        bg-black border border-neutral-800 text-white rounded-none
-                                    @else
-                                        bg-neutral-950/45 border-neutral-800/40 text-neutral-200
-                                    @endif
-                                ">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded-lg bg-slate-950 flex items-center justify-center text-purple-400 border border-slate-800">
-                                            <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-3.5 h-3.5"></i>
+                                @if($link->cover_image)
+                                    <!-- Featured Card Link Layout in Mockup -->
+                                    <div class="w-full rounded-xl border overflow-hidden flex flex-col group transition-all duration-300
+                                        @if(($settings->theme ?? '') === 'inxdvi-light')
+                                            bg-neutral-50 border-neutral-200/80 text-neutral-800 shadow-sm
+                                        @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
+                                            bg-black/90 border-cyan-950/80 text-cyan-400 rounded-lg
+                                        @elseif(($settings->theme ?? '') === 'inxdvi-mono')
+                                            bg-black border border-neutral-800 text-white rounded-none
+                                        @else
+                                            bg-neutral-950/45 border-neutral-800/40 text-neutral-200
+                                        @endif
+                                    ">
+                                        <div class="w-full h-16 overflow-hidden relative">
+                                            <img src="{{ $link->cover_image }}" alt="Cover" class="w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-1.5 left-2 flex items-center gap-1">
+                                                <div class="w-4 h-4 rounded bg-black/65 flex items-center justify-center text-purple-400 border border-slate-700/50">
+                                                    <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-2.5 h-2.5"></i>
+                                                </div>
+                                                <span class="text-[9px] font-bold text-white uppercase">{{ $link->title }}</span>
+                                            </div>
                                         </div>
-                                        <span class="font-semibold">{{ $link->title }}</span>
                                     </div>
-                                    <i data-lucide="chevron-right" class="w-3 h-3 text-slate-500"></i>
-                                </div>
+                                @else
+                                    <!-- Standard Link Row Layout -->
+                                    <div class="w-full py-2.5 px-4 rounded-xl border flex items-center justify-between text-xs
+                                        @if(($settings->theme ?? '') === 'inxdvi-light')
+                                            bg-neutral-50 border-neutral-200/80 text-neutral-800 shadow-sm
+                                        @elseif(($settings->theme ?? '') === 'inxdvi-cyber')
+                                            bg-black/90 border-cyan-950/80 text-cyan-400 rounded-lg
+                                        @elseif(($settings->theme ?? '') === 'inxdvi-mono')
+                                            bg-black border border-neutral-800 text-white rounded-none
+                                        @else
+                                            bg-neutral-950/45 border-neutral-800/40 text-neutral-200
+                                        @endif
+                                    ">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-lg bg-slate-950 flex items-center justify-center text-purple-400 border border-slate-800">
+                                                <i data-lucide="{{ $link->icon ?? 'link' }}" class="w-3.5 h-3.5"></i>
+                                            </div>
+                                            <span class="font-semibold">{{ $link->title }}</span>
+                                        </div>
+                                        <i data-lucide="chevron-right" class="w-3 h-3 text-slate-500"></i>
+                                    </div>
+                                @endif
                             @empty
                                 <div class="text-center py-4 text-slate-500 text-[10px]">
                                     No custom links visible.

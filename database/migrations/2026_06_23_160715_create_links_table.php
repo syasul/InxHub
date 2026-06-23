@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
             $table->integer('clicks_count')->default(0);
+            $table->string('cover_image')->nullable();
             $table->timestamps();
         });
     }

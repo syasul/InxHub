@@ -35,9 +35,7 @@ class DatabaseSeeder extends Seeder
                 'social_links' => [
                     'instagram' => 'inxdvi',
                     'tiktok' => 'inxdvi',
-                    'github' => 'inxdvi',
-                    'linkedin' => 'company/inxdvi',
-                    'twitter' => 'inxdvi',
+                    'threads' => 'inxdvi',
                     'youtube' => '@inxdvi',
                     'whatsapp' => '6281234567890',
                 ]

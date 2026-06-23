@@ -16,6 +16,7 @@ class Link extends Model
         'is_active',
         'sort_order',
         'clicks_count',
+        'cover_image',
     ];
 
     /**

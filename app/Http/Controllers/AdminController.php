@@ -82,7 +82,16 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'url' => 'required|url',
             'icon' => 'nullable|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
+
+        $coverPath = null;
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/covers'), $filename);
+            $coverPath = '/uploads/covers/' . $filename;
+        }
 
         // Get highest sort order to put it at the bottom
         $maxOrder = Link::max('sort_order') ?? 0;
@@ -93,6 +102,7 @@ class AdminController extends Controller
             'icon' => $request->icon ?? 'link',
             'is_active' => true,
             'sort_order' => $maxOrder + 1,
+            'cover_image' => $coverPath,
         ]);
 
         return back()->with('success', 'Link added successfully!');
@@ -108,14 +118,34 @@ class AdminController extends Controller
             'url' => 'required|url',
             'icon' => 'nullable|string|max:255',
             'is_active' => 'sometimes|boolean',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
-        $link->update([
+        $data = [
             'title' => $request->title,
             'url' => $request->url,
             'icon' => $request->icon ?? 'link',
             'is_active' => $request->has('is_active'),
-        ]);
+        ];
+
+        if ($request->hasFile('cover_image')) {
+            // Delete old file if exists
+            if ($link->cover_image && file_exists(public_path($link->cover_image))) {
+                @unlink(public_path($link->cover_image));
+            }
+            
+            $file = $request->file('cover_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/covers'), $filename);
+            $data['cover_image'] = '/uploads/covers/' . $filename;
+        } elseif ($request->has('remove_cover')) {
+            if ($link->cover_image && file_exists(public_path($link->cover_image))) {
+                @unlink(public_path($link->cover_image));
+            }
+            $data['cover_image'] = null;
+        }
+
+        $link->update($data);
 
         return back()->with('success', 'Link updated successfully!');
     }
