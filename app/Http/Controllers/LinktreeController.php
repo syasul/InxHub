@@ -14,11 +14,11 @@ class LinktreeController extends Controller
     public function show()
     {
         $settings = Setting::first();
-        
+
         // If settings don't exist yet, we can create empty defaults
         if (!$settings) {
             $settings = Setting::create([
-                'profile_name' => 'My Linktree',
+                'profile_name' => 'INXHUB',
                 'profile_bio' => 'Welcome to my links page.',
                 'theme' => 'glass-3d-dark',
                 'social_links' => [],
@@ -39,7 +39,7 @@ class LinktreeController extends Controller
     {
         // Increment clicks
         $link->increment('clicks_count');
-        
+
         // Redirect to target URL
         return redirect()->away($link->url);
     }
