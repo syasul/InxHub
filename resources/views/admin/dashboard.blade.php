@@ -525,7 +525,7 @@
             </span>
 
             <!-- Phone Frame -->
-            <div class="phone-frame tilt-3d">
+            <div class="phone-frame">
                 <div class="phone-notch">
                     <div class="phone-camera"></div>
                     <div class="phone-speaker"></div>
@@ -544,7 +544,6 @@
                     @endif
                 ">
                     <!-- Noise & Grid Overlays inside mockup -->
-                    <div class="noise-overlay" style="position: absolute; border-radius: inherit;"></div>
                     <div id="preview-grid" class="absolute inset-0 z-0 pointer-events-none
                         @if(($settings->theme ?? '') === 'inxdvi-mono')
                             hidden
@@ -890,22 +889,6 @@
                 element.classList.remove('hidden');
             }
         };
-
-        // 3D Phone Tilt Effect
-        const phone = document.querySelector('.phone-frame');
-        phone.addEventListener('mousemove', e => {
-            const rect = phone.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const xc = rect.width / 2;
-            const yc = rect.height / 2;
-            const angleX = (yc - y) / 10;
-            const angleY = (x - xc) / 10;
-            phone.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-        phone.addEventListener('mouseleave', () => {
-            phone.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-        });
     </script>
 </body>
 </html>
